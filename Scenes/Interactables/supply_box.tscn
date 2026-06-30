@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ddi4mokfhhsyh"]
+
+[ext_resource type="Script" uid="uid://dp4yc5voo8fps" path="res://Scripts/Interactables/supply_box.gd" id="1_kukoj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68aiu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_68aiu"]
+
+[node name="SupplyBox" type="RigidBody3D" unique_id=213237332]
+script = ExtResource("1_kukoj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=362740397]
+shape = SubResource("BoxShape3D_68aiu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=880547416]
+mesh = SubResource("BoxMesh_68aiu")

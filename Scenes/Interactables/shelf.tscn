@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dm6ycmljmyeei"]
+
+[ext_resource type="PackedScene" uid="uid://br8726kseqb3d" path="res://Models/Interactables/shelf.glb" id="1_1whlm"]
+[ext_resource type="Script" uid="uid://cvwex0dtdonfv" path="res://Scripts/Interactables/shelf.gd" id="1_shv8l"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68aiu"]
+size = Vector3(2.270813, 1.4066162, 0.625)
+
+[node name="Shelf" type="StaticBody3D" unique_id=1869567675]
+script = ExtResource("1_shv8l")
+
+[node name="shelf" parent="." unique_id=935091933 instance=ExtResource("1_1whlm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0063638687, 0.0050429106, 0.0003373623)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=559237264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.069000244, 0.9516696, -0.11948955)
+shape = SubResource("BoxShape3D_68aiu")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1183402373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8028675, -0.15031326)
+billboard = 1
+text = "Empty"
+
+[node name="item_spawn" type="Node3D" parent="." unique_id=836583571]

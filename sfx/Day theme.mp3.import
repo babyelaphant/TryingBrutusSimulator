@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cude2k1o68js6"
+path="res://.godot/imported/Day theme.mp3-7c5e5c1ee70e49fd646c254688b11bea.mp3str"
+
+[deps]
+
+source_file="res://sfx/Day theme.mp3"
+dest_files=["res://.godot/imported/Day theme.mp3-7c5e5c1ee70e49fd646c254688b11bea.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
