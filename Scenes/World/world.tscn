@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cur258of8mopb" path="res://Models/World/gas_station_base_merged.glb" id="3_3rhlx"]
 [ext_resource type="PackedScene" uid="uid://dm6ycmljmyeei" path="res://Scenes/Interactables/shelf.tscn" id="4_vadfg"]
 [ext_resource type="AudioStream" uid="uid://cude2k1o68js6" path="res://sfx/Day theme.mp3" id="5_l1hd3"]
+[ext_resource type="PackedScene" uid="uid://qhtsooissy7d" path="res://Scenes/Player/customer_npc.tscn" id="6_adcqc"]
 
 [sub_resource type="Environment" id="Environment_68aiu"]
 background_mode = 1
@@ -28,7 +29,7 @@ transform = Transform3D(1, 0, 0, 0, 0.57325584, 0.81937647, 0, -0.81937647, 0.57
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4830546, 11.989431, -23.855724)
 
 [node name="SupplyBox" parent="." unique_id=213237332 instance=ExtResource("2_yp2ti")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9139421, 11.510177, -30.65082)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9139421, 11.017091, -31.747387)
 
 [node name="gas_station_base" parent="." unique_id=1121504562 instance=ExtResource("3_3rhlx")]
 
@@ -194,5 +195,28 @@ item_id = 6
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1784301487]
 stream = ExtResource("5_l1hd3")
 autoplay = true
+
+[node name="customer_npc" parent="." unique_id=1708394698 instance=ExtResource("6_adcqc")]
+transform = Transform3D(-0.95319617, 0, 0.30227458, 0, 1, 0, -0.30227458, 0, -0.95319617, 3.0203154, 11.664643, -21.496498)
+
+[node name="customer_path" type="Node3D" parent="." unique_id=1823553707]
+
+[node name="point1" type="Marker3D" parent="customer_path" unique_id=1832065880]
+transform = Transform3D(-0.95319617, 0, 0.30227458, 0, 1, 0, -0.30227458, 0, -0.95319617, 3.0203154, 10.643966, -25.86649)
+
+[node name="point2" type="Marker3D" parent="customer_path" unique_id=649928451]
+transform = Transform3D(-0.95319617, 0, 0.30227458, 0, 1, 0, -0.30227458, 0, -0.95319617, -3.4909117, 10.643966, -25.86649)
+
+[node name="point3" type="Marker3D" parent="customer_path" unique_id=47129947]
+transform = Transform3D(-0.95319617, 0, 0.30227458, 0, 1, 0, -0.30227458, 0, -0.95319617, -3.4909117, 10.643966, -29.639067)
+
+[node name="point4" type="Marker3D" parent="customer_path" unique_id=864938870]
+transform = Transform3D(-0.95319617, 0, 0.30227458, 0, 1, 0, -0.30227458, 0, -0.95319617, 1.098706, 10.643966, -29.639067)
+
+[node name="point5" type="Marker3D" parent="customer_path" unique_id=428640765]
+transform = Transform3D(-0.95319617, 0, 0.30227458, 0, 1, 0, -0.30227458, 0, -0.95319617, 2.985353, 10.643966, -29.639067)
+
+[node name="point6" type="Marker3D" parent="customer_path" unique_id=1733970516]
+transform = Transform3D(-0.95319617, 0, 0.30227458, 0, 1, 0, -0.30227458, 0, -0.95319617, 3.1639743, 10.643966, -24.005808)
 
 [editable path="gas_station_base"]
