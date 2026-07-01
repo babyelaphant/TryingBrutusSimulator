@@ -1,10 +1,24 @@
 [gd_scene format=3 uid="uid://ddi4mokfhhsyh"]
 
 [ext_resource type="Script" uid="uid://dp4yc5voo8fps" path="res://Scripts/Interactables/supply_box.gd" id="1_kukoj"]
+[ext_resource type="Shader" uid="uid://1r16ivaql15p" path="res://Scenes/Interactables/supply_box.gdshader" id="2_mdbvf"]
+[ext_resource type="Texture2D" uid="uid://bg61sld5g2r4x" path="res://textures/wood_texture.jpg" id="3_1b4ol"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_68aiu"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_68aiu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_adcqc"]
+render_priority = 0
+shader = ExtResource("2_mdbvf")
+shader_parameter/wood_texture = ExtResource("3_1b4ol")
+shader_parameter/color_tint = Color(1, 1, 1, 1)
+shader_parameter/jitter_resolution = 227.36
+shader_parameter/use_affine = true
+shader_parameter/color_depth = 26.965
+shader_parameter/fog_color = Color(0.05, 0.05, 0.05, 1)
+shader_parameter/fog_near = 2.0
+shader_parameter/fog_far = 8.0
 
 [node name="SupplyBox" type="RigidBody3D" unique_id=213237332]
 script = ExtResource("1_kukoj")
@@ -14,3 +28,4 @@ shape = SubResource("BoxShape3D_68aiu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=880547416]
 mesh = SubResource("BoxMesh_68aiu")
+surface_material_override/0 = SubResource("ShaderMaterial_adcqc")

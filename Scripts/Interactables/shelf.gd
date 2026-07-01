@@ -7,10 +7,17 @@ extends StaticBody3D
 @onready var item_spawn := $item_spawn
 
 var item_instance: Node3D = null
+var player: CharacterBody3D = null
 
 func _ready() -> void:
 	load_item_mesh()
 	update_shelf()
+
+func _process(delta: float) -> void:
+	
+	if Input.is_action_just_pressed("hold_interact") and player and player.held_object and !is_full:
+		restock()
+		player.held_object.queue_free()
 
 func load_item_mesh() -> void:
 
@@ -38,3 +45,13 @@ func empty_shelf() -> void:
 	is_full = false
 	update_shelf() 
 	
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		player = body
+
+
+func _on_area_3d_body_exited(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		player = null
