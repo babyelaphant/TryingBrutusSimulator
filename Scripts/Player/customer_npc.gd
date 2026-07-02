@@ -21,6 +21,7 @@ var is_walking: bool = false
 var dynamic_label := Label.new()
 var has_drink = false
 var customer_in_store = false
+var customer_is_done = false
 @onready var player: CharacterBody3D = $"../Player"
 
 enum State {
@@ -72,6 +73,9 @@ func leave_store():
 	var direction = global_position.direction_to(Vector3.ZERO)
 	velocity = direction * speed
 	move_and_slide()
+	
+	if (position - waypoints[0]).length() > 20.0:
+		customer_is_done = true
 
 func start_interaction(d: Array):
 	

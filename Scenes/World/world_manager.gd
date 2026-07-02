@@ -3,6 +3,10 @@ extends Node3D
 @onready var game = self
 @onready var shelves: Node3D = $shelfs
 @onready var lights: Node3D = $gas_station_lights
+var customer_instance = null
+
+const customer_scene = preload("res://Scenes/Player/customer_npc.tscn")
+
 var interactable_label = Label.new()
 
 var all_shelves : Array
@@ -16,12 +20,13 @@ var day1_dialog: Array = [
 ]
 
 var stocked_store = true
-var customer1 = true
+var customer1 = false
 var customer2 = true
 var customer3 = false
 var light_zone = false
 var lights_off = false
 var lights_turned_back_on = false
+var customer_spawned = false
 
 var current_day = 0
 
@@ -77,11 +82,23 @@ func day_one():
 		print("i should probably restock the store")
 		#customer is coming i should probably go back to the register
 	
-	if (stocked_store == true):
-		print("yay stocked all store")
+	if stocked_store and !customer1:
 		await get_tree().create_timer(3.0).timeout
 	
+	if stocked_store and !customer1 and !customer_spawned:
+		customer_instance = customer_scene.instantiate()
+		customer_instance.position = Vector3(3.188,11.72,0.354)
+		add_child(customer_instance)
+		customer_spawned = true
+		print("spawing firrst customer")
+	
+	if customer_instance and customer_instance.customer_is_done:
+		customer_instance.queue_free()
+		customer_spawned = false
+		customer1 = true
+		
 	if stocked_store and customer1 and customer2 and !lights_turned_back_on:
+		await get_tree().create_timer(3.0).timeout
 		turn_off_lights()
 		lights_off = true
 	
