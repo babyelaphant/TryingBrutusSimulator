@@ -56,7 +56,7 @@ func _physics_process(delta: float) -> void:
 
 	
 	if Input.is_action_pressed("interact"):
-		print("son")
+
 		handle_interact()
 
 	
@@ -84,7 +84,7 @@ func handle_interact() -> void:
 	# If already holding an object, drop it
 	if held_object != null:
 		if held_object.has_method("drop"):
-			print("dropping")
+
 			held_object.drop()
 			held_object = null
 			return
@@ -99,7 +99,7 @@ func handle_interact() -> void:
 	var target = ray_cast_3d.get_collider()
 	
 	if target and target.has_method("pick_up"):
-		print("picking up")
+
 		held_object = target
 		target.pick_up()
 		

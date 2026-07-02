@@ -20,6 +20,7 @@ var is_waiting: bool = false
 var is_walking: bool = false
 var dynamic_label := Label.new()
 var has_drink = false
+var customer_in_store = false
 @onready var player: CharacterBody3D = $"../Player"
 
 enum State {
@@ -168,3 +169,9 @@ func get_prev_point():
 		is_waiting = false
 	else:
 		print("done")
+
+
+func _on_entrance_body_shape_entered(body_rid: RID, body: Node3D, body_shape_index: int, local_shape_index: int) -> void:
+	if body.is_in_group("customer"):
+		customer_in_store = !customer_in_store
+		

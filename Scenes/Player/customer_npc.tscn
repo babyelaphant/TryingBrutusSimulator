@@ -7,7 +7,7 @@ radius = 0.45
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_68aiu"]
 
-[node name="customer_npc" type="CharacterBody3D" unique_id=1708394698]
+[node name="customer_npc" type="CharacterBody3D" unique_id=1708394698 groups=["customer"]]
 script = ExtResource("1_gvycp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=634324291]
