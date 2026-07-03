@@ -83,18 +83,24 @@ func day_one():
 			stocked_store = false
 	
 	if !stocked_store:
-		print("i should probably restock the store")
+		interactable_label.visible = true
+		interactable_label.text = "stock the shelves gang"
 		#customer is coming i should probably go back to the register
 	
-	if stocked_store and !customer1:
+	if stocked_store and !customer1 and !customer_spawned:
+		interactable_label.visible = true
+		interactable_label.text = "stocked the shelves now get back to the register for the customer"
 		await get_tree().create_timer(3.0).timeout
 	
 	if stocked_store and !customer1 and !customer_spawned:
+		
 		customer_instance = customer_scene.instantiate()
 		customer_instance.position = Vector3(3.188,11.72,0.354)
 		add_child(customer_instance)
 		customer_spawned = true
 		print("spawing firrst customer")
+		interactable_label.visible = true
+		interactable_label.text = "help out the customer"
 	
 	if customer_instance and customer_instance.customer_is_done:
 		customer_instance.queue_free()
