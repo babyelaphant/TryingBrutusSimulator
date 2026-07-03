@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bod7rh1v2q2af"]
+
+[ext_resource type="PackedScene" uid="uid://do0r28mly4n62" path="res://Assets/PSXBroom.glb" id="1_3ykvi"]
+[ext_resource type="Script" uid="uid://clj5heyifba2t" path="res://Scripts/Interactables/broom.gd" id="1_gxv4g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_68aiu"]
+size = Vector3(1.3353882, 6.5063477, 2.2294922)
+
+[node name="broom" type="Node3D" unique_id=654712197]
+script = ExtResource("1_gxv4g")
+
+[node name="PSXBroom2" parent="." unique_id=752263069 instance=ExtResource("1_3ykvi")]
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1525773574]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1905011055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03237915, -0.21728516, 0.0014648438)
+shape = SubResource("BoxShape3D_68aiu")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

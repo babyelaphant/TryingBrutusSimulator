@@ -27,8 +27,12 @@ var light_zone = false
 var lights_off = false
 var lights_turned_back_on = false
 var customer_spawned = false
-
+var broom_zone = false
+var can_pick_up_broom = false
+var broom_mission = false
 var current_day = 0
+var coffee_zone = false
+var has_broom = false
 
 enum State {
 	DAY1,
@@ -97,10 +101,23 @@ func day_one():
 		customer_spawned = false
 		customer1 = true
 		
-	if stocked_store and customer1 and customer2 and !lights_turned_back_on:
+	if stocked_store and customer1 and customer2 and !lights_turned_back_on and !lights_off:
+		lights_off = true
 		await get_tree().create_timer(3.0).timeout
 		turn_off_lights()
-		lights_off = true
+		#lights_off = true
+	
+	if stocked_store and customer1 and customer2 and lights_turned_back_on and !broom_mission:
+		#another customer but spill coffee
+		if broom_zone and Input.is_action_just_pressed("hold_interact"):
+			print("picked up broom")
+			has_broom = true
+		
+		if has_broom and coffee_zone and Input.is_action_just_pressed("hold_interact"):
+			print("cleaned the thing")
+			broom_mission = true
+			
+			
 	
 	if light_zone and lights_off:
 		if Input.is_action_just_pressed("hold_interact"):
@@ -108,10 +125,12 @@ func day_one():
 		
 
 func turn_off_lights():
+	print("gang")
 	for l in all_lights:
 		l.visible = false
 
 func turn_on_lights():
+	print("ok")
 	for l in all_lights:
 		l.visible = true
 	
@@ -130,7 +149,24 @@ func _on_light_on_zone_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		light_zone = true
 
-
 func _on_light_on_zone_body_exited(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		light_zone = false
+
+func _on_broom_zone_body_entered(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		broom_zone = true
+
+func _on_broom_zone_body_exited(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		broom_zone = false
+
+
+func _on_coffee_spill_zone_body_entered(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		coffee_zone = true
+
+
+func _on_coffee_spill_zone_body_exited(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		coffee_zone = false
