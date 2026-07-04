@@ -13,6 +13,8 @@ var has_drink_dialog: Array = [
 	"thanks for the drink",
 ]
 
+signal custom_signal
+
 var current_dialog = 0
 var waypoints: Array = []
 var current_target_index: int = 0
@@ -30,6 +32,8 @@ enum State {
 	WALKING_TO_REGISTER,
 	AT_REGISTER,
 	WAITING,
+	ORDERING,
+	THANKS,
 	LEAVING
 }
 
@@ -45,7 +49,7 @@ func _ready():
 
 func _physics_process(delta):
 
-	if global_position.distance_to( waypoints[5]) < 0.8 and current_target_index == 5 and current_state != State.WAITING and current_state != State.LEAVING:
+	if global_position.distance_to( waypoints[5]) < 0.8 and current_target_index == 5 and current_state != State.WAITING and current_state != State.LEAVING and current_state != State.ORDERING and current_state != State.THANKS:
 		current_state = State.AT_REGISTER
 	
 	match current_state:
@@ -57,48 +61,30 @@ func _physics_process(delta):
 		State.WALKING_TO_REGISTER:
 			walk_to_register()
 		State.AT_REGISTER:
-			if has_drink:
-				start_interaction(has_drink_dialog)
-			else:
-				start_interaction(start_dialogue)
+			current_state = State.ORDERING
 		State.WAITING:
 			if Input.is_action_just_pressed("skip_dialog") and player.has_drink:
 				has_drink = true
-				current_state = State.AT_REGISTER
+				current_state = State.THANKS
+		State.ORDERING:
+			print("ordering")
+			Dialogic.start("Day_one_customer_ordering")
+			current_state = State.WAITING
+		State.THANKS:
+			Dialogic.start("Day_one_customer_thanks")
+			current_state = State.LEAVING
 		State.LEAVING:
 			leave_store()
 
 func leave_store():
-	
-	var direction = global_position.direction_to(Vector3.ZERO)
-	velocity = direction * speed
-	move_and_slide()
+	if Dialogic.current_timeline == null:
+		var direction = global_position.direction_to(Vector3.ZERO)
+		velocity = direction * speed
+		move_and_slide()
 	
 	if (position - waypoints[0]).length() > 20.0:
 		customer_is_done = true
 
-func start_interaction(d: Array):
-	
-	if current_dialog >= d.size():
-		print("hey")
-		current_dialog = 0
-		dynamic_label.visible = false
-		player.is_in_dialog = false
-		current_state = State.WAITING
-		if has_drink:
-			current_state = State.LEAVING
-		return
-	
-	player.is_in_dialog = true
-	dynamic_label.visible = true
-	
-	dynamic_label.position = Vector2(250, 250)
-	dynamic_label.text = d[current_dialog]
-	add_child(dynamic_label)
-	
-	if Input.is_action_just_pressed("skip_dialog"):
-		current_dialog += 1
-	
 func walk_to_register():
 	
 	is_waiting = true
@@ -111,7 +97,7 @@ func walk_to_register():
 	move_and_slide()
 	
 	if global_position.distance_to(target_pos) < 0.8:
-		print("at register")
+		print("sup")
 		current_state = State.AT_REGISTER
 	
 func walking():

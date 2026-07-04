@@ -19,6 +19,8 @@ var day1_dialog: Array = [
 	"i been trynna find it",
 ]
 
+signal custom_signal
+
 var stocked_store = true
 var customer1 = false
 var customer2 = true
@@ -33,6 +35,9 @@ var broom_mission = false
 var current_day = 0
 var coffee_zone = false
 var has_broom = false
+var activate_dialog = false
+var going_back_register = false
+var is_in_dialog = false
 
 enum State {
 	DAY1,
@@ -47,6 +52,8 @@ var current_state = State.DAY1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	custom_signal.connect(_on_event_triggered, CONNECT_ONE_SHOT)
+	#Dialogic.start("Day_1_boxes")
 	print(game)
 	add_child(interactable_label)
 	interactable_label.position = Vector2(500,550)
@@ -77,6 +84,15 @@ func _process(delta: float) -> void:
 
 func day_one():
 	
+	if is_in_dialog ==  true:
+		return
+	
+	if activate_dialog == false:
+		activate_dialog = true
+		Dialogic.start("Day_1_boxes")
+	
+	Dialogic.signal_event.connect(_on_dialog_signal)
+	
 	stocked_store = true
 	for child in all_shelves:
 		if child.is_full == false:
@@ -87,10 +103,13 @@ func day_one():
 		interactable_label.text = "stock the shelves gang"
 		#customer is coming i should probably go back to the register
 	
-	if stocked_store and !customer1 and !customer_spawned:
+	if stocked_store and !customer1 and !customer_spawned and !going_back_register:
 		interactable_label.visible = true
 		interactable_label.text = "stocked the shelves now get back to the register for the customer"
+		custom_signal.emit("finished_restocking")
+		print("hey")
 		await get_tree().create_timer(3.0).timeout
+		going_back_register = true
 	
 	if stocked_store and !customer1 and !customer_spawned:
 		
@@ -176,3 +195,12 @@ func _on_coffee_spill_zone_body_entered(body: Node3D) -> void:
 func _on_coffee_spill_zone_body_exited(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		coffee_zone = false
+
+func _on_dialog_signal(arg: String) -> void:
+	if arg == "finished":
+		is_in_dialog = false
+		print("dialog_finished")
+
+func _on_event_triggered(arg: String) -> void:
+	Dialogic.start(arg)
+	print("This runs once and completely cleans itself up!")

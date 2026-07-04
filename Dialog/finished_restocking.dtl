@@ -1,0 +1,3 @@
+you: Ok, I have finished restocking
+you: Uh oh, a customer is heading to the store I have to make it back to the register
+[signal arg="finished"]
