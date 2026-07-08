@@ -63,7 +63,7 @@ func _physics_process(delta):
 		State.AT_REGISTER:
 			current_state = State.ORDERING
 		State.WAITING:
-			if Input.is_action_just_pressed("skip_dialog") and player.has_drink:
+			if Input.is_action_just_pressed("skip_dialog") and player.has_drink and player.register_zone:
 				has_drink = true
 				current_state = State.THANKS
 		State.ORDERING:

@@ -17,9 +17,10 @@ var has_drink = false
 var interactable_label = Label.new()
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var in_drink_zone = false
+var register_zone = false
 
 func _ready() -> void:
-	
+	GameManager.player = self
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	ray_cast_3d.enabled = false  # Disabled by default to save performance
 

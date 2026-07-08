@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://qhtsooissy7d"]
 
 [ext_resource type="Script" uid="uid://dlo08ar0ppq4r" path="res://Scripts/Player/customer_npc.gd" id="1_gvycp"]
+[ext_resource type="PackedScene" uid="uid://cxu88k5lty0ug" path="res://Scenes/Player/psx_male_base_mesh.tscn" id="2_nflrf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_515me"]
 radius = 0.45
@@ -15,4 +16,7 @@ speed = 8.0
 shape = SubResource("CapsuleShape3D_515me")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1368069280]
+visible = false
 mesh = SubResource("CapsuleMesh_68aiu")
+
+[node name="psx_male_base_mesh" parent="." unique_id=4844422 instance=ExtResource("2_nflrf")]

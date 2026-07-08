@@ -1,5 +1,7 @@
 extends Node
 
+var player: CharacterBody3D
+
 func _ready() -> void:
 	pass
 

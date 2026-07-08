@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cxu88k5lty0ug"]
+
+[ext_resource type="PackedScene" uid="uid://hi8fmc5lk0jt" path="res://Assets/psx_male_base_mesh.glb" id="1_gdqfn"]
+
+[node name="psx_male_base_mesh" unique_id=4844422 instance=ExtResource("1_gdqfn")]

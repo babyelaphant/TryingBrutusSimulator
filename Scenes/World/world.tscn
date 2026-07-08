@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cur258of8mopb" path="res://Models/World/gas_station_base_merged.glb" id="3_3rhlx"]
 [ext_resource type="PackedScene" uid="uid://dm6ycmljmyeei" path="res://Scenes/Interactables/shelf.tscn" id="4_vadfg"]
 [ext_resource type="PackedScene" uid="uid://bod7rh1v2q2af" path="res://Scenes/Interactables/broom.tscn" id="6_adcqc"]
+[ext_resource type="AudioStream" uid="uid://cude2k1o68js6" path="res://sfx/Day theme.mp3" id="7_7staa"]
 
 [sub_resource type="Environment" id="Environment_68aiu"]
 background_mode = 1
@@ -31,6 +32,12 @@ size = Vector3(2.150879, 6.521759, 2.0517578)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pcfuj"]
 size = Vector3(0.61694336, 1.9328613, 0.85772705)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vncun"]
+size = Vector3(1.5654297, 0.09814453, 2.007187)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q0bbi"]
+size = Vector3(1.8257599, 1, 1)
 
 [node name="World" type="Node3D" unique_id=573926090]
 script = ExtResource("1_l1hd3")
@@ -261,9 +268,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7683716e-07, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9799423, 11.378885, -29.910566)
 shape = SubResource("BoxShape3D_pcfuj")
 
+[node name="register_zone" type="Area3D" parent="." unique_id=178565368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.19761, 11.954974, -25.349257)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="register_zone" unique_id=746042477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.106143, -0.45092773, 1.8694344)
+shape = SubResource("BoxShape3D_vncun")
+
+[node name="register_block" type="StaticBody3D" parent="." unique_id=306310746]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="register_block" unique_id=1476859655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3753986, 12.023145, -26.304018)
+shape = SubResource("BoxShape3D_q0bbi")
+
 [node name="broom" parent="." unique_id=654712197 instance=ExtResource("6_adcqc")]
 transform = Transform3D(0.225, 0, 0, 0, 0.225, 0, 0, 0, 0.225, 7.080561, 11.219465, -33.102375)
 script = null
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1509199723]
+stream = ExtResource("7_7staa")
+volume_db = 2.0
+autoplay = true
 
 [connection signal="body_entered" from="drinks" to="Player" method="_on_drinks_body_entered"]
 [connection signal="body_exited" from="drinks" to="Player" method="_on_drinks_body_exited"]
@@ -273,5 +298,7 @@ script = null
 [connection signal="body_exited" from="broom_zone" to="." method="_on_broom_zone_body_exited"]
 [connection signal="body_entered" from="coffee_spill_zone" to="." method="_on_coffee_spill_zone_body_entered"]
 [connection signal="body_exited" from="coffee_spill_zone" to="." method="_on_coffee_spill_zone_body_exited"]
+[connection signal="body_entered" from="register_zone" to="." method="_on_register_zone_body_entered"]
+[connection signal="body_exited" from="register_zone" to="." method="_on_register_zone_body_exited"]
 
 [editable path="gas_station_base"]

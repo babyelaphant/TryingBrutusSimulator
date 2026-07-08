@@ -3,6 +3,9 @@ extends Node3D
 @onready var game = self
 @onready var shelves: Node3D = $shelfs
 @onready var lights: Node3D = $gas_station_lights
+@onready var player: CharacterBody3D = $Player
+@onready var player_ray: RayCast3D = $Player/Camera3D/RayCast3D
+
 var customer_instance = null
 
 const customer_scene = preload("res://Scenes/Player/customer_npc.tscn")
@@ -38,6 +41,10 @@ var has_broom = false
 var activate_dialog = false
 var going_back_register = false
 var is_in_dialog = false
+var skip = 0
+var player_in_register = false
+var customer_can_spawn = false
+var register_zone = false
 
 enum State {
 	DAY1,
@@ -52,6 +59,7 @@ var current_state = State.DAY1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$register_block.collision_layer = 6
 	custom_signal.connect(_on_event_triggered, CONNECT_ONE_SHOT)
 	#Dialogic.start("Day_1_boxes")
 	print(game)
@@ -111,8 +119,12 @@ func day_one():
 		await get_tree().create_timer(3.0).timeout
 		going_back_register = true
 	
-	if stocked_store and !customer1 and !customer_spawned:
+	if stocked_store and !customer1 and !customer_spawned and register_zone:
+		customer_can_spawn = true
+		$register_block.collision_layer = 1
 		
+	
+	if stocked_store and !customer1 and !customer_spawned and customer_can_spawn:
 		customer_instance = customer_scene.instantiate()
 		customer_instance.position = Vector3(3.188,11.72,0.354)
 		add_child(customer_instance)
@@ -120,6 +132,9 @@ func day_one():
 		print("spawing firrst customer")
 		interactable_label.visible = true
 		interactable_label.text = "help out the customer"
+	
+	if customer_instance and customer_instance.current_state == 4 and !Dialogic.current_timeline:
+		$register_block.collision_layer = 6
 	
 	if customer_instance and customer_instance.customer_is_done:
 		customer_instance.queue_free()
@@ -130,15 +145,28 @@ func day_one():
 		lights_off = true
 		await get_tree().create_timer(3.0).timeout
 		turn_off_lights()
+		Dialogic.start("Day_1_lights_off")
 		#lights_off = true
 	
-	if stocked_store and customer1 and customer2 and lights_turned_back_on and !broom_mission:
-		#another customer but spill coffee
-		if broom_zone and Input.is_action_just_pressed("hold_interact"):
+	if !broom_mission:
+		
+		if (skip == 0):
+			Dialogic.start("Day_1_spilled_coffee")
+			skip += 1
+		
+		var hit_object
+		
+		if player_ray.is_colliding():
+			print("hey picking")
+			hit_object = player_ray.get_collider()
+		
+		#print(hit_object)
+		
+		if hit_object != null and broom_zone and Input.is_action_just_pressed("hold_interact") and hit_object.name == "broom":
 			print("picked up broom")
 			has_broom = true
 		
-		if has_broom and coffee_zone and Input.is_action_just_pressed("hold_interact"):
+		if hit_object != null and has_broom and coffee_zone and Input.is_action_just_pressed("hold_interact") and hit_object.name == "coffee_spill_zone":
 			print("cleaned the thing")
 			broom_mission = true
 			
@@ -204,3 +232,15 @@ func _on_dialog_signal(arg: String) -> void:
 func _on_event_triggered(arg: String) -> void:
 	Dialogic.start(arg)
 	print("This runs once and completely cleans itself up!")
+
+
+func _on_register_zone_body_entered(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		register_zone = true
+		player.register_zone = true
+
+
+func _on_register_zone_body_exited(body: Node3D) -> void:
+	if body.is_in_group("player"):
+		register_zone = false
+		player.register_zone = false

@@ -29,6 +29,8 @@ directories/dch_directory={
 }
 directories/dtl_directory={
 "Day_1_boxes": "res://Dialog/Day_1_boxes.dtl",
+"Day_1_lights_off": "res://Dialog/Day_1_lights_off.dtl",
+"Day_1_spilled_coffee": "res://Dialog/Day_1_spilled_coffee.dtl",
 "Day_one_customer_ordering": "res://Dialog/Day_one_customer_ordering.dtl",
 "Day_one_customer_thanks": "res://Dialog/Day_one_customer_thanks.dtl",
 "customer_ordering": "res://Dialog/customer_ordering.dtl",
@@ -147,4 +149,5 @@ dialogic_default_action={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
